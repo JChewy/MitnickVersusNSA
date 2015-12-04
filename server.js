@@ -16,6 +16,7 @@ io.on('connection', function (socket) {
 	}); 
 
 	socket.emit('message', {
+		name: 'System', 
 		text: "welcome to the chat application",
 	}); 
 
