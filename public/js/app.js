@@ -4,6 +4,11 @@ var socket = io();
 
 console.log(name + 'wants to join ' + room); 
 
+var DataCollected = 0; 
+console.log(DataCollected); 
+
+
+
 
 jQuery('.room-title').text(room); 
 
@@ -12,21 +17,18 @@ socket.on('connect', function(){
 	console.log('Connected to the socket.io server!')
 	socket.emit('joinRoom', {
 		name: name, 
-		room: room
-	});
+		room: room, 
+		});
+	}); 
+
+	socket.on('message', function (message) {
+		var momentTimestamp = moment.utc(message.timestamp); 
+		var $message = jQuery('.messages'); 
+
+		console.log('New message:' + message.text); 
+
+		$message.append('<p><strong> > '+  message.name + ' ' + momentTimestamp.local().format('h:mm a : ') + '</strong>'+ message.text +'</p>')
 }); 
-
-socket.on('message', function (message) {
-	var momentTimestamp = moment.utc(message.timestamp); 
-	var $message = jQuery('.messages'); 
-
-	console.log('New message:' + message.text); 
-
-	$message.append('<p><strong>'+ message.name + ' ' + momentTimestamp.local().format('h:mm a') + '</strong></p>')
-	$message.append('<p>' + message.text + '</p>')
-}); 
-
-
 
 
 var $form = jQuery('#message-form');

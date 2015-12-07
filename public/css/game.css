@@ -1,0 +1,19 @@
+body{
+	background-color: black; 
+}
+
+.messages{
+	width: 1000; 
+	height: 500;
+	border-style: solid, 2px; 
+	border-color: black; 
+	color: green;
+	font-family: 'Consolas'; 
+	font-size: 20px; 
+}
+
+a {
+	font-family: 'VT323'; 
+	font-size: 20px;
+	text-decoration: none; 
+}

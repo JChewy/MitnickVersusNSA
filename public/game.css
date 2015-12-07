@@ -1,0 +1,11 @@
+body{
+	background-color: blue; 
+}
+
+.messages{
+	width: 1000; 
+	height: 500;
+	border-style: solid, 2px; 
+	border-color: black; 
+	text-decoration: green; 
+}
