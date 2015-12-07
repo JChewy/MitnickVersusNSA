@@ -8,7 +8,7 @@ var MitnickStartGameRequest = false;
 var NSAstartGameRequest = false; 
 var Mit= 0; 
 var N= 0; 
-
+var i = 0; 
 //if this reaches zero NSA wins
 var MitnickHealth = 3; 
 var NSAwins = false; 
@@ -224,6 +224,7 @@ function hack (socket) {
 	var info = clientInfo[socket.id]; 
 
 	//this gives the illusion that actual hacking is going on
+	i = 1; 
 
 	socket.emit('message', {
 		name: 'System', 
@@ -253,6 +254,7 @@ function hack (socket) {
 	setTimeout(function() {
 		DataCollected = DataCollected + 1; 
 		RemainingDataToCollect = RemainingDataToCollect - 1; 
+		i =0; 
 	},2000); 
 
 	setTimeout(function(){ 
@@ -280,6 +282,13 @@ function hack (socket) {
 
 
 
+}
+
+function hackInProgress (socket) {
+	socket.emit('message', {
+		name: 'System', 
+		text: 'Error: hack already in progress'
+	}); 
 }
 
 
@@ -699,7 +708,9 @@ io.on('connection', function (socket) {
 			//this makes sure that the NSA can't have access to the moves designated to Mitnick
 			}else if(message.text === 'cd server 1' && clientInfo[socket.id].name !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='hack server' && clientInfo[socket.id].name === 'Mitnick' && MitnickLocation !== 0){
+			}else if(message.text ==='hack server' && clientInfo[socket.id].name === 'Mitnick' && MitnickLocation !== 0 && i===1){
+				hackInProgress(socket); 
+			}else if(message.text ==='hack server' && clientInfo[socket.id].name === 'Mitnick' && MitnickLocation !== 0 && i ===0){
 				hack(socket); 
 			}else if(message.text ==='hack server' && clientInfo[socket.id].name === 'Mitnick' && MitnickLocation === 0){
 				mustBeInServer(socket); 
