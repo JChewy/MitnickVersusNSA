@@ -258,7 +258,7 @@ function hack (socket) {
 	setTimeout(function(){ 
 
 		var userData = clientInfo[socket.id];
-		if(DataCollected === 2){
+		if(DataCollected === 10){
 			io.to(userData.room).emit('message', {
 				name: 'System', 
 				text: 'Game Over! Mitnick Wins!'
