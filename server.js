@@ -265,7 +265,7 @@ function hack (socket) {
 			}); 
 
 			MitnickWins = true; 
-			player.play(__dirname + '/public/audio/Whistle.mp3', function(err){})
+			player.play(__dirname + '/public/audio/Whistle.mp3', function(err){}); 
 
 			MitnickStartGameRequest = false; 
 			NSAstartGameRequest = false; 
