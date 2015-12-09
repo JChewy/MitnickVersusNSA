@@ -731,9 +731,9 @@ io.on('connection', function (socket) {
 				createSniffer(socket); 
 			}else if(message.text === 'create sniffer' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role === 'Mitnick' && sniffer > 0){
+			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role === 'Mitnick' && snifferQuantity > 0){
 				useSniffer(socket); 
-			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role === 'Mitnick' && sniffer === 0){
+			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role === 'Mitnick' && snifferQuantity === 0){
 				noSniffer(socket); 
 			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
