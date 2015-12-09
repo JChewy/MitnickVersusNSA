@@ -152,18 +152,27 @@ function createRadar (socket) {
 	},4000)	
 }
 
+
+
 function Radar (socket) {
-	setInterval(function(){
+
+	var fireRadar =function(){
 		socket.emit('message', {
 			name: 'System', 
-			text: 'Mitnick located on server ' + NSALocation
+			text: 'Mitnick located on server ' + MitnickLocation
 		}); 
-	},1000)
+	}
 
-	socket.broadcast.emit('message', {
-		name: 'System', 
-		text: 'Radar pinging your location!'
-	})
+	if(radarQuantity >0){
+		setInterval(fireRadar,1000)
+
+		socket.broadcast.emit('message', {
+			name: 'System', 
+			text: 'Radar pinging your location!'
+		})
+	}else{
+		clearInterval(fireRadar); 
+	}
 
 
 }
@@ -173,7 +182,9 @@ function RadarOffline (socket) {
 	socket.emit('message', {
 		name: 'System', 
 		text: 'Radar is offline'
-	})
+	}); 
+
+	clearInterval(fireRadar); 
 
 
 }
@@ -216,7 +227,9 @@ function fireJammer (socket) {
 
 	setInterval(function(){
 		radarQuantity = 0; 
+		Radar(); 
 	}, 1000)
+
 }
 
 function noJammer (socket) {
