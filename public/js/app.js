@@ -4,11 +4,6 @@ var socket = io();
 
 console.log(name + 'wants to join ' + room); 
 
-var DataCollected = 0; 
-console.log(DataCollected); 
-
-
-
 
 jQuery('.room-title').text(room); 
 
@@ -25,18 +20,16 @@ socket.on('connect', function(){
 		var momentTimestamp = moment.utc(message.timestamp); 
 		var $message = jQuery('.messages'); 
 
-		console.log('New message:' + message.text); 
-
-		$message.append('<p><strong> > '+  message.name + ' ' + momentTimestamp.local().format('h:mm a : ') + '</strong>'+ message.text +'</p>')
+		$message.append('<p><strong> > '+   message.name + ' ' + momentTimestamp.local().format('h:mm a : ') + '</strong>'+ message.text +'</p>')
 }); 
 
 
-var $form = jQuery('#message-form');
+var $form = jQuery('#command-prompt');
 
 $form.on('submit', function (event) {
 	event.preventDefault(); 
 
-	var $message = $form.find('input[name=messages]')
+	var $message = $form.find('input[name=commands]')
 
 	socket.emit('message', {
 		name: name, 
