@@ -7,8 +7,13 @@ var NSALocation = 0;
 var MitnickStartGameRequest = false; 
 var NSAstartGameRequest = false; 
 var Mit= 0; 
+var Mitnick = 0; 
+var NSA = 0; 
 var N= 0; 
 var i = 0; 
+
+
+
 //if this reaches zero NSA wins
 var MitnickHealth = 3; 
 var NSAwins = false; 
@@ -31,6 +36,21 @@ var io = require('socket.io')(http);
 app.use(express.static(__dirname + '/public')); 
 var clientInfo = {}; 
 
+
+function MitnickExists(socket) {
+	socket.emit('message', {
+		name: 'System', 
+		text: 'The role Mitnick is taken'
+	}); 
+}
+
+
+function NSAExists(socket) {
+	socket.emit('message', {
+		name: 'System', 
+		text: 'The role NSA is taken'
+	}); 
+}
 
 //creating NSA locators 
 function createSniffer(socket) {
@@ -328,6 +348,11 @@ function pingServer (socket) {
 				name: 'System', 
 				text: 'Game Over! USA! USA! USA!'
 			}); 
+
+			clientInfo[socket.id].role = " none ";
+			Mitnick = 0; 
+			NSA = 0; 
+			console.log(clientInfo[socket.id].role); 
 
 			MitnickStartGameRequest = false; 
 			NSAstartGameRequest = false; 
@@ -643,23 +668,7 @@ function checkserver10 (socket) {
 //starts the connection 
 io.on('connection', function (socket) {
 
-	console.log('Client has connected'); 
-
-
-
-	if(MitnickHealth === 0){
-		socket.emit('message', {
-			name: 'System', 
-			text: 'Game Over! NSA wins!'
-		})
-	}
-
-	if(DataCollected === 10){
-		socket.broadcast.emit('message', {
-			name: 'System', 
-			text: 'Game Over! Mitnick wins!'
-		})
-	}
+	console.log('Client has connected');
 
 	//this is emitted whenever someone is connected to the socket
 	socket.emit('message', {
@@ -703,128 +712,128 @@ io.on('connection', function (socket) {
 		if(MitnickStartGameRequest === true && NSAstartGameRequest ===true){
 
 			//hack commands for Mitnick
-			if(message.text === 'cd server 1' && clientInfo[socket.id].name === 'Mitnick'){
+			if(message.text === 'cd server 1' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver1(socket);  
 			//this makes sure that the NSA can't have access to the moves designated to Mitnick
-			}else if(message.text === 'cd server 1' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 1' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='hack server' && clientInfo[socket.id].name === 'Mitnick' && MitnickLocation !== 0 && i===1){
+			}else if(message.text ==='hack server' && clientInfo[socket.id].role === 'Mitnick' && MitnickLocation !== 0 && i===1){
 				hackInProgress(socket); 
-			}else if(message.text ==='hack server' && clientInfo[socket.id].name === 'Mitnick' && MitnickLocation !== 0 && i ===0){
+			}else if(message.text ==='hack server' && clientInfo[socket.id].role === 'Mitnick' && MitnickLocation !== 0 && i ===0){
 				hack(socket); 
-			}else if(message.text ==='hack server' && clientInfo[socket.id].name === 'Mitnick' && MitnickLocation === 0){
+			}else if(message.text ==='hack server' && clientInfo[socket.id].role === 'Mitnick' && MitnickLocation === 0){
 				mustBeInServer(socket); 
-			}else if(message.text ==='hack server' && clientInfo[socket.id].name !=='Mitnick'){
+			}else if(message.text ==='hack server' && clientInfo[socket.id].role !=='Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 2' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 2' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver2(socket); 
-			}else if(message.text === 'create sniffer' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'create sniffer' && clientInfo[socket.id].role === 'Mitnick'){
 				createSniffer(socket); 
-			}else if(message.text === 'create sniffer' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'create sniffer' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'use sniffer' && clientInfo[socket.id].name === 'Mitnick' && sniffer > 0){
+			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role === 'Mitnick' && sniffer > 0){
 				useSniffer(socket); 
-			}else if(message.text === 'use sniffer' && clientInfo[socket.id].name === 'Mitnick' && sniffer === 0){
+			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role === 'Mitnick' && sniffer === 0){
 				noSniffer(socket); 
-			}else if(message.text === 'use sniffer' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'create jammer' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'create jammer' && clientInfo[socket.id].role === 'Mitnick'){
 				createJammer(socket); 
-			}else if(message.text === 'create jammer' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'create jammer' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'fire jammer' && clientInfo[socket.id].name === 'Mitnick' && jammerQuantity > 0){
+			}else if(message.text === 'fire jammer' && clientInfo[socket.id].role === 'Mitnick' && jammerQuantity > 0){
 				fireJammer(socket); 
-			}else if(message.text === 'fire jammer' && clientInfo[socket.id].name === 'Mitnick' && jammerQuantity === 0){
+			}else if(message.text === 'fire jammer' && clientInfo[socket.id].role === 'Mitnick' && jammerQuantity === 0){
 				noJammer(socket); 
-			}else if(message.text === 'fire jammer' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'fire jammer' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 2' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 2' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 3' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 3' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver3(socket); 
-			}else if(message.text === 'cd server 3' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 3' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 4' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 4' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver4(socket); 
-			}else if(message.text === 'cd server 4' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 4' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 5' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 5' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver5(socket); 
-			}else if(message.text === 'cd server 5' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 5' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 6' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 6' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver6(socket); 
-			}else if(message.text === 'cd server 6' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 6' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 7' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 7' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver7(socket); 
-			}else if(message.text === 'cd server 7' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 7' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 8' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 8' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver8(socket); 
-			}else if(message.text === 'cd server 8' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 8' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 9' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 9' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver9(socket); 
-			}else if(message.text === 'cd server 9' &&  clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 9' &&  clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
-			}else if(message.text === 'cd server 10' && clientInfo[socket.id].name === 'Mitnick'){
+			}else if(message.text === 'cd server 10' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver10(socket); 
-			}else if(message.text === 'cd server 10' && clientInfo[socket.id].name !== 'Mitnick'){
+			}else if(message.text === 'cd server 10' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
 			}//NSA movement
 			 //NSA movement
 			 //NSA movement
-			else if(message.text ==='check server 1' && clientInfo[socket.id].name === 'NSA'){
+			else if(message.text ==='check server 1' && clientInfo[socket.id].role === 'NSA'){
 				checkserver1(socket); 
-			}else if(message.text === 'check server 1' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 1' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 2' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 2' && clientInfo[socket.id].role === 'NSA'){
 				checkserver2(socket); 
-			}else if(message.text === 'check server 2' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 2' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 3' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 3' && clientInfo[socket.id].role === 'NSA'){
 				checkserver3(socket); 
-			}else if(message.text === 'check server 3' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 3' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 4' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 4' && clientInfo[socket.id].role === 'NSA'){
 				checkserver4(socket); 
-			}else if(message.text === 'check server 4' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 4' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 5' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 5' && clientInfo[socket.id].role === 'NSA'){
 				checkserver5(socket); 
-			}else if(message.text === 'check server 5' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 5' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 6' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 6' && clientInfo[socket.id].role === 'NSA'){
 				checkserver6(socket); 
-			}else if(message.text === 'check server 6' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 6' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 7' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 7' && clientInfo[socket.id].role === 'NSA'){
 				checkserver7(socket); 
-			}else if(message.text === 'check server 7' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 7' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 8' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 8' && clientInfo[socket.id].role === 'NSA'){
 				checkserver8(socket); 
-			}else if(message.text === 'check server 8' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 8' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 9' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 9' && clientInfo[socket.id].role === 'NSA'){
 				checkserver9(socket); 
-			}else if(message.text === 'check server 9' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 9' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
-			}else if(message.text ==='check server 10' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text ==='check server 10' && clientInfo[socket.id].role === 'NSA'){
 				checkserver10(socket); 
-			}else if(message.text === 'check server 10' && clientInfo[socket.id].name !== 'NSA'){
+			}else if(message.text === 'check server 10' && clientInfo[socket.id].role !== 'NSA'){
 				CommandNotRecognized(socket); 
 			}//NSA ping move. Checks if Mitnick is in the same server
-			else if(message.text === 'ping server' && clientInfo[socket.id].name === 'NSA' && NSALocation !== 0){
+			else if(message.text === 'ping server' && clientInfo[socket.id].role === 'NSA' && NSALocation !== 0){
 				pingServer(socket); 
-			}else if(message.text === 'ping server' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text === 'ping server' && clientInfo[socket.id].role === 'NSA'){
 				mustBeInServer(socket); 
-			}else if(message.text === 'set up radar' && clientInfo[socket.id].name === 'NSA'){
+			}else if(message.text === 'set up radar' && clientInfo[socket.id].role === 'NSA'){
 				createRadar(socket); 
-			}else if(message.text === 'fire radar' && clientInfo[socket.id].name === 'NSA' && radarQuantity > 0){
+			}else if(message.text === 'fire radar' && clientInfo[socket.id].role === 'NSA' && radarQuantity > 0){
 				Radar(socket); 
-			}else if(message.text === 'fire radar' && clientInfo[socket.id].name === 'NSA' && radarQuantity === 0){
+			}else if(message.text === 'fire radar' && clientInfo[socket.id].role === 'NSA' && radarQuantity === 0){
 				RadarOffline(socket); 
 			}
 			else{
@@ -832,10 +841,20 @@ io.on('connection', function (socket) {
 				// io.to(clientInfo[socket.id].room).emit('message', message);
 				CommandNotRecognized(socket);  
 			}
-		}else if(message.text === 'start game' && clientInfo[socket.id].name === 'Mitnick'){
+		}else if(message.text === 'start game Mitnick' && Mitnick === 0){
 			var userData = clientInfo[socket.id];
+
 			MitnickStartGameRequest = true; 
 			Mit = 1; 
+			Mitnick = 1; 
+			clientInfo[socket.id].role = 'Mitnick';
+			console.log(clientInfo[socket.id].role)
+
+			socket.emit('message', {
+				name: 'System', 
+				text: 'You have selected the role of Mitnick'
+			}); 
+
 			io.to(userData.room).emit('message', {
 				name: 'System', 
 				text: 'Mitnick is ready to begin'
@@ -851,10 +870,20 @@ io.on('connection', function (socket) {
 					N = 0; 
 				}
 
-		}else if(message.text === 'start game' && clientInfo[socket.id].name === 'NSA'){
+		}else if(message.text === 'start game Mitnick' && Mitnick === 1){
+				MitnickExists(socket); 
+		}else if(message.text === 'start game NSA' && NSA === 0){
 			var userData = clientInfo[socket.id];
 			NSAstartGameRequest = true; 
+			clientInfo[socket.id].role = 'NSA';
 			N = 1; 
+			NSA = 1; 
+
+			socket.emit('message', {
+				name: 'System', 
+				text: 'You have selected the role of the NSA'
+			}); 
+
 			io.to(userData.room).emit('message', {
 				name: 'System', 
 				text: 'NSA is ready to begin'
@@ -869,11 +898,11 @@ io.on('connection', function (socket) {
 					Mit = 0; 
 					N = 0; 
 				}
+		}else if(message.text === 'start game NSA' && NSA === 1){
+			NSAExists(socket); 
 		}else{
 			io.to(clientInfo[socket.id].room).emit('message', message);
 		}
-
-
 		
 	}); 
 
@@ -883,7 +912,5 @@ io.on('connection', function (socket) {
 //starts server
 http.listen(PORT, function(){
 	console.log('server started on port:' + PORT)
-
-
 
 })
