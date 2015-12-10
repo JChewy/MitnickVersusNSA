@@ -27,19 +27,7 @@ socket.on('connect', function(){
 }); 
 
 
-//makes sure the div scrolls on the socket specific callbacks
-function autoscroll() {
-	    setInterval(function () {
-        var iScroll = $(window).scrollTop();
-        iScroll = iScroll + 200;
-        $('html, .console').animate({
-            scrollTop: iScroll
-        }, 1000);
-    }, 100);
 
-}
-
-autoscroll(); 
 
 
 var $form = jQuery('#command-prompt');
@@ -58,4 +46,18 @@ $form.on('submit', function (event) {
 $message.val(''); 
 
 }); 
+
+//makes sure the div scrolls on the socket specific callbacks
+function autoscroll() {
+	    setInterval(function () {
+        var iScroll = $(window).scrollTop();
+        iScroll = iScroll + 10000000;
+        $('html, .console').animate({
+            scrollTop: iScroll
+        }, 1000);
+    }, 100);
+
+}
+
+autoscroll(); 
 
