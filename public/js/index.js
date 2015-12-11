@@ -13,18 +13,20 @@ $form.on('submit', function(event){
 	}
 }); 
 
-function Timer () {
-	setTimeout(function(){
-		i=1;
-		while(i>0){
-			console.log("Time's up! You are not worthy of entering")
-		}
-	}, 5000); 
+// function Timer () {
+// 	setTimeout(function(){
+// 		i=1;
+// 		while(i>0){
+// 			console.log("Time's up! You are not worthy of entering")
+// 		}
+// 	}, 5000); 
 
-}
+// }
 
-Timer(); 
+// Timer(); 
 
-
+$('.found').mouseenter(function(){
+	$(this).html('pcmasterrace');
+});
 
 

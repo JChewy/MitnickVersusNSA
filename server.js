@@ -171,6 +171,8 @@ function createTrip(socket) {
 
 function Tripped(socket) {
 
+	player.play(__dirname + '/public/audio/tripped.mp3', function(err){});
+
 	if(MitnickLocation === 1 ){
 	onetrip === false; 
 	}else if(MitnickLocation === 2){
