@@ -49,6 +49,55 @@ app.use(express.static(__dirname + '/public'));
 var clientInfo = {}; 
 
 
+function helpMitnick (socket) {
+	socket.emit('message', {
+		name: "Movement: ", 
+		text: "There are ten servers. To relocate between them type the command 'cd server ' followed by the number of the server."
+	}); 
+
+	socket.emit('message', {
+		name: "Hacking: ", 
+		text: "To hack a server, cd into a server and type 'hack server'. You must hack ten servers to win."
+	});
+
+	socket.emit('message', {
+		name: "Sniffers: ", 
+		text: "To locate the NSA. You must create sniffers. Type 'create sniffer' to create one. Then type 'fire sniffer' to sniff out the NSA's location"
+	});
+
+	socket.emit('message', {
+		name: "Role selection: ", 
+		text: "To select Mitnick as your role, type 'start game Mitnick'"
+	});
+
+
+}
+
+
+function helpNSA (socket) {
+	socket.emit('message', {
+		name: "Movement: ", 
+		text: "There are ten servers. To check if Mitnick is in either of them type the command 'check server ' followed by the number of the server."
+	}); 
+
+	socket.emit('message', {
+		name: "Catching Mitnick: ", 
+		text: "If you believe Mitnick is in the server you are in, type 'ping server'. If Mitnick is in the server Mitnick will lose a life and all hacking progres."
+	});
+
+	socket.emit('message', {
+		name: "Boobytrapping: ", 
+		text: "You can boobytrap servers by typing 'set trip wire' in any server. If Mitnick trips the wire Mitnick's location will be broadcasted to you."
+	});
+
+	socket.emit('message', {
+		name: "Role selection: ", 
+		text: "To select the NSA as your role, type 'start game NSA'"
+	});
+
+
+}
+
 function MitnickExists(socket) {
 	socket.emit('message', {
 		name: 'System', 
@@ -633,7 +682,7 @@ io.on('connection', function (socket) {
 	//this is emitted whenever someone is connected to the socket
 	socket.emit('message', {
 		name: 'System', 
-		text: "welcome to the game. To start, both players must submit a start game request. To submit a start game request just type 'start game' in the console",
+		text: "Enter 'help Mitnick' or 'help NSA' to see guide",
 	}); 
 
 
@@ -678,9 +727,6 @@ io.on('connection', function (socket) {
 	//allows me to determine what happens when a player types something into the chat box
 	//here is where I set the commands that are specific to each side
 	socket.on('message', function (message) {
-		//start game
-		
-
 
 
 		if(MitnickStartGameRequest === true && NSAstartGameRequest ===true){
@@ -689,7 +735,7 @@ io.on('connection', function (socket) {
 			if(message.text === 'cd server 1' && clientInfo[socket.id].role === 'Mitnick' && onetrip === true){
 				MitnickLocation = 1; 
 				Tripped(socket); 
-				onetrip = false;  
+				onetrip = false; 
 			}else if(message.text === 'cd server 1' && clientInfo[socket.id].role === 'Mitnick'){
 				cdserver1(socket);  
 				console.log(MitnickLocation); 
@@ -784,16 +830,6 @@ io.on('connection', function (socket) {
 			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role === 'Mitnick' && snifferQuantity === 0){
 				noSniffer(socket); 
 			}else if(message.text === 'use sniffer' && clientInfo[socket.id].role !== 'Mitnick'){
-				CommandNotRecognized(socket); 
-			}else if(message.text === 'create jammer' && clientInfo[socket.id].role === 'Mitnick'){
-				createJammer(socket); 
-			}else if(message.text === 'create jammer' && clientInfo[socket.id].role !== 'Mitnick'){
-				CommandNotRecognized(socket); 
-			}else if(message.text === 'fire jammer' && clientInfo[socket.id].role === 'Mitnick' && jammerQuantity > 0){
-				fireJammer(socket); 
-			}else if(message.text === 'fire jammer' && clientInfo[socket.id].role === 'Mitnick' && jammerQuantity === 0){
-				noJammer(socket); 
-			}else if(message.text === 'fire jammer' && clientInfo[socket.id].role !== 'Mitnick'){
 				CommandNotRecognized(socket); 
 			//NSA movement
 			 //NSA movement
@@ -952,6 +988,10 @@ io.on('connection', function (socket) {
 				}
 		}else if(message.text === 'start game NSA' && NSA === 1){
 			NSAExists(socket); 
+		}else if(message.text === 'help Mitnick'){
+			helpMitnick(socket); 
+		}else if(message.text === 'help NSA'){
+			helpNSA(socket); 
 		}else{
 			io.to(clientInfo[socket.id].room).emit('message', message);
 		}

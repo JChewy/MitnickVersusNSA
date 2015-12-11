@@ -1,33 +1,35 @@
+
+
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset='UTF-8'>
 		<title>AYOOOO</title>
 		<link rel="stylesheet" type="text/css" href="/css/hacker.css">
+		
 	</head>
 	<body>
 	<div rows='3'>
 	</div>
 
+	<h1>You have 5 Seconds</h1>
 	<div class = "well">
 
-			<form action='/chat.html'>
+			<form action='/splash.html' id='gate'>
+				<input class = 'form-control' name='password' type='text'/>
 
-				<label> Alias </label>
-				<input class = 'form-control' type='text' name ='name'/>
-
-				<label> Server ID </label>
-				<input class = 'form-control' type='text' name='room'/>
-
-				<input class = 'btn btn-primary' type='submit' value='Enter Game' />
-
-
-
-
+				<input class = 'btn btn-primary' type='submit' value='Enter' />
 			</form>
+
 	</div>
+
 	<div class='col-lg-6'>
+		<div id='timer'><h1><span id='countdown'></span></h1></div>
 	</div>
+
+
+	<script src='/js/jquery-2.1.4.min.js'></script>
+	<script src='/js/index.js'></script>
 
 	</body>
 </html>
