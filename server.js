@@ -300,7 +300,24 @@ function hack (socket) {
 
 			MitnickStartGameRequest = false; 
 			NSAstartGameRequest = false; 
-
+			Mit= 0; 
+			Mitnick = 0; 
+			NSA = 0; 
+			N= 0; 
+			i = 0; 
+			trips = 0; 
+			MitnickLocation = 0; 
+			NSALocation = 0; 
+			onetrip = false; 
+			twotrip = false; 
+			threetrip = false; 
+			fourtrip = false; 
+			fivetrip = false; 
+			sixtrip = false; 
+			seventrip = false; 
+			eighttrip = false; 
+			ninetrip = false; 
+			tentrip = false;
 		}
 	},2000);
 
@@ -365,6 +382,26 @@ function pingServer (socket) {
 
 			MitnickStartGameRequest = false; 
 			NSAstartGameRequest = false; 
+			MitnickStartGameRequest = false; 
+			NSAstartGameRequest = false; 
+			Mit= 0; 
+			Mitnick = 0; 
+			NSA = 0; 
+			N= 0; 
+			i = 0; 
+			trips = 0; 
+			MitnickLocation = 0; 
+			NSALocation = 0; 
+			onetrip = false; 
+			twotrip = false; 
+			threetrip = false; 
+			fourtrip = false; 
+			fivetrip = false; 
+			sixtrip = false; 
+			seventrip = false; 
+			eighttrip = false; 
+			ninetrip = false; 
+			tentrip = false;
 
 			player.play(__dirname + '/public/audio/Murica.mp3', function(err){});
 
