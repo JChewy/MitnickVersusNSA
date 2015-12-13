@@ -11,22 +11,34 @@ $form.on('submit', function(event){
 }); 
 
 
-//if the player does not find the password within 5 seconds their browser crashes
-//-insert troll.gif
+// if the player does not find the password within 5 seconds their browser crashes
+// -insert troll.gif
 function Timer () {
 	setTimeout(function(){
 		i=1;
 		while(i>0){
 			console.log("Time's up! You are not worthy of entering")
 		}
-	}, 5000); 
+	}, 5100); 
 
 }
 
 Timer(); 
 
+
+setTimeout(function(){
+		$('#trollface').show(); 
+}, 5000); 
+
+setTimeout(function(){
+		$('.well').hide();
+		$('#title').hide();  
+}, 5000); 
+
 $('.found').mouseenter(function(){
 	$(this).html('pcmasterrace');
 });
+
+
 
 

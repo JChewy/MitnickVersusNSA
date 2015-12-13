@@ -274,6 +274,11 @@ function hack (socket) {
 		text: 'hack successful.'
 	})},2000); 
 
+	setTimeout(function() {
+		player.play(__dirname + '/public/audio/hacked.mp3', function(err){}); 
+	}, 2000);
+		
+
 	//this is emitted to the NSA, not Mitnick
 	setTimeout(function() {
 		socket.broadcast.emit('message', {
