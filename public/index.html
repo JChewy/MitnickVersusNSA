@@ -12,30 +12,27 @@
 			height:200px;
 		}
 </style>
-
 	</head>
 	<body>
-	<div rows='3'>
-	</div>
+		<div rows='3'>
+		</div>
 
-	<h1>You have 5 Seconds to find the key</h1>
-	<div class = "well">
+		<h1>You have 5 Seconds to find the key</h1>
 
-			<form action='/splash.html' id='gate'>
-				<input class = 'form-control' name='password' type='text'/>
+		<div class = "well">
+				<form action='/splash.html' id='gate'>
+					<input autocomplete='off' class = 'form-control' name='password' type='text'/>
 
-				<input class = 'btn btn-primary' type='submit' value='Enter' />
-			</form>
+					<input class = 'btn btn-primary' type='submit' value='Enter' />
+				</form>
+		</div>
 
-	</div>
-
-	<div class='col-lg-6' rows='3'>
-		<div class='found'><h2 id='pass'></h2></div>
-	</div>
-
+		<!--where the password is located-->
+		<div class='col-lg-6' rows='3'>
+			<div class='found'><h2 id='pass'></h2></div>
+		</div>
 
 	<script src='/js/jquery-2.1.4.min.js'></script>
 	<script src='/js/index.js'></script>
-
 	</body>
 </html>

@@ -1,7 +1,4 @@
 
-console.log('hello'); 
-
-
 var $form = jQuery('#gate');
 $form.on('submit', function(event){
 	var x = document.forms["gate"]["password"].value;
@@ -13,17 +10,20 @@ $form.on('submit', function(event){
 	}
 }); 
 
-// function Timer () {
-// 	setTimeout(function(){
-// 		i=1;
-// 		while(i>0){
-// 			console.log("Time's up! You are not worthy of entering")
-// 		}
-// 	}, 5000); 
 
-// }
+//if the player does not find the password within 5 seconds their browser crashes
+//-insert troll.gif
+function Timer () {
+	setTimeout(function(){
+		i=1;
+		while(i>0){
+			console.log("Time's up! You are not worthy of entering")
+		}
+	}, 5000); 
 
-// Timer(); 
+}
+
+Timer(); 
 
 $('.found').mouseenter(function(){
 	$(this).html('pcmasterrace');
