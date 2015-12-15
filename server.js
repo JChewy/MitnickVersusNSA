@@ -325,6 +325,15 @@ function hack (socket) {
 			eighttrip = false; 
 			ninetrip = false; 
 			tentrip = false;
+			MitnickHealth = 3; 
+			NSAwins = false; 
+			DataCollected = 0; 
+			MitnickWins = false; 
+			RemainingDataToCollect = 10; 			
+			snifferQuantity = 0;
+			radarQuantity = 0;
+			jammerQuantity = 0;
+			Donut = 0;
 		}
 	},2000);
 
@@ -384,6 +393,8 @@ function pingServer (socket) {
 			NSA = 0; 
 			console.log(clientInfo[socket.id].role); 
 
+
+			//i must reset all the variables if the game is over
 			MitnickStartGameRequest = false; 
 			NSAstartGameRequest = false; 
 			MitnickStartGameRequest = false; 
@@ -757,16 +768,36 @@ io.on('connection', function (socket) {
 			delete clientInfo[socket.id].role;
 			delete clientInfo[socket.id];  
 
-
-				 Mit= 0; 
-				 Mitnick = 0; 
-				 NSA = 0; 
-				 N= 0; 
-				 i = 0; 
-				 MitnickLocation = 0; 
-				 NSALocation = 0; 
-				 MitnickStartGameRequest = false; 
-				 NSAstartGameRequest = false;
+			//game resets if a client disconnects
+			MitnickStartGameRequest = false; 
+			NSAstartGameRequest = false; 
+			Mit= 0; 
+			Mitnick = 0; 
+			NSA = 0; 
+			N= 0; 
+			i = 0; 
+			trips = 0; 
+			MitnickLocation = 0; 
+			NSALocation = 0; 
+			onetrip = false; 
+			twotrip = false; 
+			threetrip = false; 
+			fourtrip = false; 
+			fivetrip = false; 
+			sixtrip = false; 
+			seventrip = false; 
+			eighttrip = false; 
+			ninetrip = false; 
+			tentrip = false;
+			MitnickHealth = 3; 
+			NSAwins = false; 
+			DataCollected = 0; 
+			MitnickWins = false; 
+			RemainingDataToCollect = 10; 			
+			snifferQuantity = 0;
+			radarQuantity = 0;
+			jammerQuantity = 0;
+			Donut = 0;
 
 		}
 
